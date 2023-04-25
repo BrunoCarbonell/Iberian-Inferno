@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public enum Type { FORCADO, MATADOR, CAVALEIROW }
+public enum Type { FORCADO, MATADOR, CAVALEIRO }
 public class Enemy : MonoBehaviour
 {
 
@@ -24,12 +24,26 @@ public class Enemy : MonoBehaviour
     public Animator anim;
     private CapsuleCollider2D col;
     private GameManager gM;
+    public ParticleSystem stun;
+    public GameObject poofEffect;
+    public ParticleSystem hiteffect;
 
     [Header("Forcado")]
     public float jumpForwardForce;
     public bool isHolding = false;
     public GameObject[] bodyParts;
     public bool isAttacking = false;
+
+
+    [Header("Cavaleiro")]
+    public int spawnPosition;
+    public Transform spearSpawnPos;
+    public GameObject spearPrefab;
+    public float spearSpeed = 20;
+    private Vector2 shootDirection;
+    public float firerate = 1.5f;
+    private float nextFire;
+
 
     [Header("Pathfinding")]
     public Transform target;
@@ -64,12 +78,20 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         atualHP = hp;
-        seeker = GetComponent<Seeker>();
         col= GetComponent<CapsuleCollider2D>();
         target = GameObject.Find("HipTouro").transform;
-        InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
         lookingRigth = true;
         gM = GameObject.FindObjectOfType<GameManager>();
+        if(type == Type.FORCADO)
+        {
+            seeker = GetComponent<Seeker>();
+            InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
+        }
+
+        if(type == Type.CAVALEIRO)
+        {
+            nextFire = Time.time + firerate;
+        }
 
     }
 
@@ -109,47 +131,70 @@ public class Enemy : MonoBehaviour
             isHolding = false;
             directionLookEnable = false;
             gM.enemyList.Remove(parentGO);
+            stun.Play(true);
+            if (!fly)
+            {
+                foreach (GameObject go in bodyParts)
+                {
+                    go.layer = 10;
+                }
+            }
+            
         }
 
         //var tmp = new Vector2()
         if (fly && isDead && rb.velocity.magnitude <= 0.1f)
+        {
             fly = false;
+
+            foreach (GameObject go in bodyParts)
+            {
+                go.layer = 10;
+            }
+        }
        
     }
 
 
     private void FixedUpdate()
     {
-
-        if (IsInStopDistance())
+        if (type == Type.FORCADO)
         {
-            followEnable = false;
-            anim.SetTrigger("Stop");
-           
-        }
-        else if (!isDead || (type == Type.FORCADO && !isHolding))
-        {
-            followEnable = true;
-        }
-
-        if (TargetInDistance() && followEnable)
-        {
-            PathFollow();
-
-        }
-
-        if (IsInStopDistance())
-        {
-            if (!isHolding && !fly)
+            if (IsInStopDistance())
             {
-                var tmp = new Vector2(rb.velocity.y, 0);
-                rb.velocity = tmp;
-                
+                followEnable = false;
+                anim.SetTrigger("Stop");
+
             }
-               
-            if(!isAttacking && !isHolding && !isDead)
-                Attack();
+            else if (!isDead || (type == Type.FORCADO && !isHolding))
+            {
+                followEnable = true;
+            }
+
+            if (TargetInDistance() && followEnable)
+            {
+                PathFollow();
+
+            }
+
+            if (IsInStopDistance())
+            {
+                if (!isHolding && !fly)
+                {
+                    var tmp = new Vector2(rb.velocity.y, 0);
+                    rb.velocity = tmp;
+
+                }
+
+                if (!isAttacking && !isHolding && !isDead)
+                    Attack();
+            }
+        }else if(type == Type.CAVALEIRO)
+        {
+            CheckIfTimeToFire();
         }
+
+
 
         anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
 
@@ -157,6 +202,7 @@ public class Enemy : MonoBehaviour
 
     public void Hit()
     {
+        hiteffect.Play(true);
         atualHP--;
     }
 
@@ -201,6 +247,7 @@ public class Enemy : MonoBehaviour
     IEnumerator DestroyTimer(float time)
     {
         yield return new WaitForSeconds(time);
+        var evaporate = Instantiate(poofEffect, transform.position, Quaternion.identity);
         Destroy(parentGO);
     }
 
@@ -215,6 +262,27 @@ public class Enemy : MonoBehaviour
         if(followEnable && TargetInDistance() && seeker.IsDone())
         {
             seeker.StartPath(rb.position, target.position, OnPathComplete);
+        }
+    }
+
+    private void CheckIfTimeToFire()
+    {
+        if(Time.time > nextFire && !isDead)
+        {
+            Vector3 spearRot;
+            spearRot.x = target.position.x - transform.position.x;
+            spearRot.y = target.position.y - transform.position.y;
+
+            float angle = (Mathf.Atan2(spearRot.y, spearRot.x) * Mathf.Rad2Deg)-90;
+            var rot = Quaternion.Euler(new Vector3(0, 0, angle));
+
+            var bullet = Instantiate(spearPrefab, spearSpawnPos.position, rot);
+            bullet.GetComponent<SpearController>().player = target;
+            shootDirection = (target.transform.position - spearSpawnPos.position).normalized * spearSpeed;
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootDirection.x, shootDirection.y);
+            Destroy(bullet, 6f);
+            nextFire = Time.time + firerate;
+
         }
     }
 
@@ -239,7 +307,7 @@ public class Enemy : MonoBehaviour
         if(jumpEnable && isGrounded)
         {
             if(direction.y > jumpNoteHeigthRequirement)
-            {
+            {    
                 rb.AddForce(Vector2.up * speed * JumpModifier);
             }
         }
@@ -322,4 +390,8 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheck.position, gCDistance);
 
     }
+
+   
+
+
 }

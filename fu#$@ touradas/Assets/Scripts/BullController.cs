@@ -35,6 +35,10 @@ public class BullController : MonoBehaviour
     Collider2D[] inExplosionRadius = null;
     public Transform explosionCenter;
     public BoxCollider2D headButtCol;
+    public GameObject headbutEffect;
+    public GameObject explosionEffect;
+    public float attackCooldown = 0.7f;
+    private bool canAttack = true;
 
     [Header("Status")]
     public GameObject[] holdingSpots;
@@ -116,36 +120,24 @@ public class BullController : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-
-
         xDir = context.ReadValue<Vector2>().x;
-        //rb.velocity = new Vector2(xDir *(movementForce * Time.deltaTime), rb.velocity.y);
     }
 
     public void Jump(InputAction.CallbackContext context)
     {
         if(context.started && isGrounded)
         {
-            //rb.velocity = new Vector2(rb.velocity.x, 0);
-            //rb.velocity = new Vector2(rb.velocity.x, jumpForce * Time.deltaTime);
             jumpEffect.GetComponentInParent<ParticleSystem>().Play();
-            //jumpEffect.SetActive(false);
-            //jumpEffect.SetActive(true);
-            //rb.AddForce(Vector2.up * jumpForce * movementForce);
             StartCoroutine(JumpTimer(0.2f));
             anim.SetTrigger("Jump");
         }
 
         if(context.started && !isGrounded && !haveDoublejumped)
         {
-            //rb.velocity = new Vector2(rb.velocity.x, 0);
-            //rb.AddForce(Vector2.up * jumpForce * movementForce);
-            //rb.velocity = new Vector2(rb.velocity.x, jumpForce * Time.deltaTime);
+
             jumpEffect.GetComponentInParent<ParticleSystem>().Play();
             StartCoroutine(JumpTimer(0.2f));
             haveDoublejumped = true;
-            //jumpEffect.SetActive(false);
-            //jumpEffect.SetActive(true);
             anim.SetTrigger("Jump");
 
         }
@@ -153,11 +145,13 @@ public class BullController : MonoBehaviour
     
     public void HeadButting(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && canAttack)
         {
             headButtCol.enabled = true;
             anim.SetTrigger("Attack");
             StartCoroutine(AttackDelay(0.4f));
+            canAttack = false;
+            StartCoroutine(delayNextAtack(attackCooldown));
         }
     }
 
@@ -223,7 +217,7 @@ public class BullController : MonoBehaviour
     IEnumerator ExplosionDelay(float waitTime, Rigidbody2D o_rigid, Collider2D o, Vector2 distanceVec)
     {
         yield return new WaitForSeconds(waitTime);
-
+        explosionEffect.GetComponentInParent<ParticleSystem>().Play(true);
         if (o.GetComponent<Enemy>().isHolding)
         {
             float explosionForce = exploxionForceMulti;
@@ -247,9 +241,17 @@ public class BullController : MonoBehaviour
 
     }
 
+    IEnumerator delayNextAtack(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        canAttack = true;
+    }
+
     IEnumerator AttackDelay(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        headbutEffect.GetComponentInParent<ParticleSystem>().Play();
+
         headButtCol.enabled = false;
     }
     IEnumerator time()
@@ -268,5 +270,22 @@ public class BullController : MonoBehaviour
         atualHP = atualHP - (dmgOverTime * mFStacks);
     }
 
-    
+    public void Hit( float damage)
+    {
+        atualHP -= damage;
+    }
+
+    public void Heal(int amount)
+    {
+        atualHP += amount;
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Flower"))
+        {
+            Heal(collision.GetComponent<Heal>().Use());
+        }
+    }
 }
