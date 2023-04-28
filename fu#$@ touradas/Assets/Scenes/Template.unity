@@ -5510,7 +5510,13 @@ MonoBehaviour:
   ragCol: []
   movementForce: 15
   jumpForce: 500
-  haveDoublejumped: 0
+  maxJumps: 2
+  maxButtonHoldTime: 0
+  holdForce: 0
+  maxJumpSpeed: 0
+  maxFallSpeed: 0
+  fallSpeed: 0
+  gravityMultipler: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -5692,7 +5698,7 @@ SpriteRenderer:
   m_SortingLayerID: -962080063
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7c42ddbc6448bae439317c3a9712fc9e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d30c7546e188ff342bcde11c2ccf3e2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9822,6 +9828,10 @@ PrefabInstance:
     - target: {fileID: 2624823298840947155, guid: 4d75fc50c294d8a47bd437fbae13b72a, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5399374162710633411, guid: 4d75fc50c294d8a47bd437fbae13b72a, type: 3}
+      propertyPath: m_GravityScale
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d75fc50c294d8a47bd437fbae13b72a, type: 3}

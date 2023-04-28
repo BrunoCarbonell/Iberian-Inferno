@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class BullController : MonoBehaviour
 {
@@ -17,17 +18,34 @@ public class BullController : MonoBehaviour
     [Header("Movement")]
     public float movementForce;
     private float atualMovForce;
+    private float xDir;
+    private Vector3 m_Velocity = Vector3.zero;
+    private int timer = 0;
+
+    [Header("Jump")]
     public float jumpForce;
-    public bool haveDoublejumped;
+    public int maxJumps = 2;
+    public float maxButtonHoldTime;
+    public float holdForce;
+    public float maxJumpSpeed;
+    public float maxFallSpeed;
+    public float fallSpeed;
+    public float gravityMultipler;
     public LayerMask whatIsGround;
     private bool isGrounded;
-    private float xDir;
     public Transform groundCheck;
     [Space(5)]
     [Range(0f, 2f)] public float raicastDistance = 1.5f;
     public GameObject jumpEffect;
-    private Vector3 m_Velocity = Vector3.zero;
-    private int timer = 0;
+    private bool haveDoublejumped;
+
+    private bool jumpPressed;
+    private bool jumpHeld;
+    private float buttonHoldTime;
+    private float originalGravity;
+    private int numberOfJumpsLeft;
+
+
 
     [Header("Attacks")]
     public float explosionRadius = 5;
@@ -82,7 +100,9 @@ public class BullController : MonoBehaviour
     {
         Movement();
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, raicastDistance, whatIsGround);
-        if(isGrounded)
+
+
+        if (isGrounded)
             haveDoublejumped = false;
 
         atualSlow = 1-((mFSlow * mFStacks)/100);
@@ -125,6 +145,18 @@ public class BullController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
+
+        if (context.started)
+            Debug.Log("Press");
+        else
+            Debug.Log("not press");
+
+        if (context.performed)
+            Debug.Log("holding");
+        else
+            Debug.Log("released");
+
+
         if(context.started && isGrounded)
         {
             jumpEffect.GetComponentInParent<ParticleSystem>().Play();
