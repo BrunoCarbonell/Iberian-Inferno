@@ -75,7 +75,7 @@ public class SpawnManager : MonoBehaviour
             anim.SetTrigger("WaveComplete");
             canAnimate = false;
         }
-        if(currentWaveNumber == waves.Length)
+        if(currentWaveNumber == waves.Length-1 && gM.enemyList.Count == 0)
         {
             anim.SetTrigger("Victory");
             gM.state = GameState.VICTORY;

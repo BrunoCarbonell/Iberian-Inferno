@@ -345,7 +345,7 @@ public class BullController : MonoBehaviour
         while(true)
         {
             if(mFStacks >0)
-            timeCount();
+                timeCount();
 
             yield return new WaitForSeconds(1);
         }

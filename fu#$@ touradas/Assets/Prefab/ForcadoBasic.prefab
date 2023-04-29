@@ -2913,6 +2913,7 @@ MonoBehaviour:
   hand1: {fileID: 3383868340543257696}
   damage: 3
   destroyTime: 20
+  lookingRigth: 1
   anim: {fileID: 8852098705316465587}
   stun: {fileID: 969927409259928397}
   poofEffect: {fileID: 187952, guid: c05e92eaee7a00844867e5edc8e0dde1, type: 3}
@@ -2936,10 +2937,18 @@ MonoBehaviour:
   - {fileID: 3383868341141971590}
   - {fileID: 3383868340110569264}
   isAttacking: 0
+  spawnPosition: 0
+  spearSpawnPos: {fileID: 0}
+  spearPrefab: {fileID: 0}
+  spearSpeed: 20
+  firerate: 1.5
+  delayShoot: 0
+  skins: []
+  farpa: {fileID: 0}
   target: {fileID: 0}
   activateDistance: 50
   pathUpdateSeconds: 0.5
-  stopDistance: 5
+  stopDistance: 10
   speed: 4000
   nextWaypointDistance: 3
   jumpNoteHeigthRequirement: 0.8
@@ -3205,7 +3214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19900918, guid: 775fb3e8f5df827428272416a14d9adf, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 19900918, guid: 775fb3e8f5df827428272416a14d9adf, type: 3}
       propertyPath: m_SortingOrder
@@ -3221,7 +3230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19990166, guid: 775fb3e8f5df827428272416a14d9adf, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 19990166, guid: 775fb3e8f5df827428272416a14d9adf, type: 3}
       propertyPath: m_SortingOrder
@@ -3237,7 +3246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19995288, guid: 775fb3e8f5df827428272416a14d9adf, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 19995288, guid: 775fb3e8f5df827428272416a14d9adf, type: 3}
       propertyPath: m_SortingOrder

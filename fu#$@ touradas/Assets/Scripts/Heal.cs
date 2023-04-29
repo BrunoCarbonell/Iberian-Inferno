@@ -7,12 +7,14 @@ public class Heal : MonoBehaviour
     public int HealAmount = 15;
     public ParticleSystem healEffect;
     public SpriteRenderer image;
+    public SpriteRenderer image2;
     public GameObject effect;
     private BoxCollider2D col;
 
     private void Start()
     {
         col = GetComponentInChildren<BoxCollider2D>();
+ 
     }
 
 
@@ -20,6 +22,7 @@ public class Heal : MonoBehaviour
     {
         effect.SetActive(false);
         image.enabled = false;
+        image2.enabled = false;
         healEffect.Play(true);
         col.enabled = false;
         Destroy(gameObject, 2f);
