@@ -284,6 +284,7 @@ public class BullController : MonoBehaviour
                     Vector2 distanceVec = o.transform.position - explosionCenter.position;
                     if(distanceVec.magnitude > 0 && !o.CompareTag("Player"))
                     {
+                        mFStacks = 0;
                         StartCoroutine(ExplosionDelay(0.2f, o_rigid, o, distanceVec));
                     }
                 }

@@ -128,6 +128,8 @@ public class Enemy : MonoBehaviour
         }
         
 
+
+
         if(fly)
         {
             hand.enabled = false;
@@ -136,7 +138,7 @@ public class Enemy : MonoBehaviour
             GetComponent<Balance>().enabled = false;
         }
 
-        if(isDead && (hand.enabled == true || hand1.enabled == true))
+       if(type != Type.FORCADO && isDead && hand.enabled)
         {
             hand.enabled = false;
             hand1.enabled = false;
@@ -165,7 +167,7 @@ public class Enemy : MonoBehaviour
         }
 
         //var tmp = new Vector2()
-        if (fly && isDead && rb.velocity.magnitude <= 0.1f)
+        if (fly && isDead && rb.velocity.magnitude <= 0.5f)
         {
             fly = false;
 
@@ -366,9 +368,9 @@ public class Enemy : MonoBehaviour
 
         if(directionLookEnable)
         {
-            if (rb.velocity.x > 0.05f && !lookingRigth)
+            if (rb.velocity.x > 1 && !lookingRigth)
                 Flip();
-            else if (rb.velocity.x < -0.05f && lookingRigth)
+            else if (rb.velocity.x < -1 && lookingRigth)
                 Flip();
         }
     }

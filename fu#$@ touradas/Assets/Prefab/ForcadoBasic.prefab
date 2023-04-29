@@ -2754,7 +2754,7 @@ GameObject:
   - component: {fileID: 6313497767352316958}
   - component: {fileID: 6313497767352316944}
   - component: {fileID: 6313497767352316959}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BasicCollider
   m_TagString: MF
   m_Icon: {fileID: 0}
@@ -2918,7 +2918,7 @@ MonoBehaviour:
   stun: {fileID: 969927409259928397}
   poofEffect: {fileID: 187952, guid: c05e92eaee7a00844867e5edc8e0dde1, type: 3}
   hiteffect: {fileID: 2572359595874021026}
-  jumpForwardForce: 3
+  jumpForwardForce: 6
   isHolding: 0
   bodyParts:
   - {fileID: 3383868340448271539}
@@ -2949,7 +2949,7 @@ MonoBehaviour:
   activateDistance: 50
   pathUpdateSeconds: 0.5
   stopDistance: 10
-  speed: 4000
+  speed: 5000
   nextWaypointDistance: 3
   jumpNoteHeigthRequirement: 0.8
   JumpModifier: 0.5
