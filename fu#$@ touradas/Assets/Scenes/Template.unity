@@ -8953,6 +8953,22 @@ PrefabInstance:
       propertyPath: secondaryJumpForce
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 5399374163689993723, guid: 4d75fc50c294d8a47bd437fbae13b72a, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5399374163689993723, guid: 4d75fc50c294d8a47bd437fbae13b72a, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5399374164282577695, guid: 4d75fc50c294d8a47bd437fbae13b72a, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5399374164282577695, guid: 4d75fc50c294d8a47bd437fbae13b72a, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d75fc50c294d8a47bd437fbae13b72a, type: 3}
 --- !u!1001 &5983732600439155811

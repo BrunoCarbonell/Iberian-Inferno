@@ -164,12 +164,6 @@ public class BullController : MonoBehaviour
             jumpHeld = true;
         }
 
-        if (context.canceled)
-        {
-            //jumpHeld = false;
-            //jumpPressed = false;
-        }
-
 
         /*if(context.started && isGrounded)
         {
@@ -206,6 +200,7 @@ public class BullController : MonoBehaviour
                 buttonHoldTime = maxButtonHoldTime;
                 if (!isJumping)
                 {
+                    jumpEffect.GetComponentInParent<ParticleSystem>().Play();
                     anim.SetTrigger("Jump");
                 }
                 isJumping = true;
@@ -216,11 +211,15 @@ public class BullController : MonoBehaviour
 
     private void IsJumping()
     {
-        if (isJumping)
+        if (isJumping && numberOfJumpsLeft == maxJumps)
         {
-            StartCoroutine(JumpTimer(0.2f));
-            //rb.AddForce(Vector2.up * jumpForce);
-            //AdditionalAir();
+            //StartCoroutine(JumpTimer(0.2f));
+            rb.AddForce(Vector2.up * jumpForce);
+            AdditionalAir();
+        }else if(isJumping && numberOfJumpsLeft < maxJumps)
+        {
+            rb.AddForce(Vector2.up * secondaryJumpForce);
+            AdditionalAir();
         }
         if(rb.velocity.y > maxJumpSpeed)
         {
@@ -348,21 +347,6 @@ public class BullController : MonoBehaviour
         }
 
         
-    }
-
-    IEnumerator JumpTimer(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        jumpEffect.GetComponentInParent<ParticleSystem>().Play();
-        if (numberOfJumpsLeft == maxJumps)
-            rb.AddForce(Vector2.up * jumpForce);
-        else
-            rb.AddForce(Vector2.up * secondaryJumpForce);
-
-        AdditionalAir();
-
-
-
     }
 
     IEnumerator delayNextAtack(float delay)
