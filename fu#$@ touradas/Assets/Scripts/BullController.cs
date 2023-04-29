@@ -68,6 +68,7 @@ public class BullController : MonoBehaviour
     public float dmgOverTime = 5;
     public float maxHP;
     public float atualHP;
+    public List<Enemy> mfAtacheds = new List<Enemy>();
 
 
 
@@ -364,7 +365,9 @@ public class BullController : MonoBehaviour
 
     void timeCount()
     {
-        atualHP = atualHP - (dmgOverTime * mFStacks);
+
+        if(mFStacks == mfAtacheds.Count)
+            atualHP = atualHP - (dmgOverTime * mFStacks);
     }
 
     public void Hit( float damage)

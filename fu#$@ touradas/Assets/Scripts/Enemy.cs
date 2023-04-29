@@ -164,6 +164,7 @@ public class Enemy : MonoBehaviour
             isHolding = false;
             directionLookEnable = false;
             gM.enemyList.Remove(parentGO);
+            target.GetComponent<BullController>().mfAtacheds.Remove(this);
             stun.Play(true);
             if (!fly)
             {
@@ -175,6 +176,13 @@ public class Enemy : MonoBehaviour
             
         }
 
+        if(type == Type.FORCADO )
+        {
+            if(hand.enabled || hand1.enabled)
+            {
+
+            }
+        }
         //var tmp = new Vector2()
         if (fly && isDead && rb.velocity.magnitude <= 0.5f)
         {
@@ -264,6 +272,10 @@ public class Enemy : MonoBehaviour
             hand1.connectedBody = tmp.GetComponent<Rigidbody2D>();
             isHolding = true;
             anim.enabled = false;
+            if (!target.GetComponent<BullController>().mfAtacheds.Contains(this))
+            {
+                target.GetComponent<BullController>().mfAtacheds.Add(this);
+            }
             foreach(GameObject go in bodyParts)
             {
                 go.layer = 8;
