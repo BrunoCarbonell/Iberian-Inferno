@@ -24,6 +24,7 @@ public class BullController : MonoBehaviour
 
     [Header("Jump")]
     public float jumpForce;
+    public float secondaryJumpForce;
     public int maxJumps = 2;
     public float maxButtonHoldTime;
     public float holdForce;
@@ -43,7 +44,8 @@ public class BullController : MonoBehaviour
     private bool jumpHeld;
     private float buttonHoldTime;
     private float originalGravity;
-    private int numberOfJumpsLeft;
+    [SerializeField]private int numberOfJumpsLeft;
+    private bool isJumping;
 
 
 
@@ -82,6 +84,7 @@ public class BullController : MonoBehaviour
     private void Start()
     {
         gM = GameObject.FindObjectOfType<GameManager>();
+        originalGravity = rb.gravityScale;
         StartCoroutine(time());
     }
 
@@ -94,6 +97,9 @@ public class BullController : MonoBehaviour
             Flip();
         gM.UpdateHpBar(atualHP, maxHP);
 
+        CheckForJump();
+
+
     }
 
     private void FixedUpdate()
@@ -103,7 +109,11 @@ public class BullController : MonoBehaviour
 
 
         if (isGrounded)
+        {
             haveDoublejumped = false;
+            numberOfJumpsLeft = maxJumps;
+            rb.gravityScale = originalGravity;
+        }
 
         atualSlow = 1-((mFSlow * mFStacks)/100);
 
@@ -130,6 +140,8 @@ public class BullController : MonoBehaviour
 
             
         }
+
+        IsJumping();
     }
 
     public void Movement()
@@ -147,17 +159,19 @@ public class BullController : MonoBehaviour
     {
 
         if (context.started)
-            Debug.Log("Press");
-        else
-            Debug.Log("not press");
+        {
+            jumpPressed = true;
+            jumpHeld = true;
+        }
 
-        if (context.performed)
-            Debug.Log("holding");
-        else
-            Debug.Log("released");
+        if (context.canceled)
+        {
+            //jumpHeld = false;
+            //jumpPressed = false;
+        }
 
 
-        if(context.started && isGrounded)
+        /*if(context.started && isGrounded)
         {
             jumpEffect.GetComponentInParent<ParticleSystem>().Play();
             StartCoroutine(JumpTimer(0.2f));
@@ -172,9 +186,80 @@ public class BullController : MonoBehaviour
             haveDoublejumped = true;
             anim.SetTrigger("Jump");
 
+        }*/
+    }
+
+    public void CheckForJump()
+    {
+        if (jumpPressed)
+        {
+            jumpPressed = false;
+            if (!isGrounded && numberOfJumpsLeft == maxJumps)
+            {
+                isJumping = false;
+            }
+            numberOfJumpsLeft--;
+            if (numberOfJumpsLeft >= 0)
+            {
+                rb.gravityScale = originalGravity;
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                buttonHoldTime = maxButtonHoldTime;
+                if (!isJumping)
+                {
+                    anim.SetTrigger("Jump");
+                }
+                isJumping = true;
+            }
+            
         }
     }
+
+    private void IsJumping()
+    {
+        if (isJumping)
+        {
+            StartCoroutine(JumpTimer(0.2f));
+            //rb.AddForce(Vector2.up * jumpForce);
+            //AdditionalAir();
+        }
+        if(rb.velocity.y > maxJumpSpeed)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, maxJumpSpeed);
+        }
+        Falling();
+    }
     
+    private void AdditionalAir()
+    {
+        if (jumpHeld)
+        {
+            buttonHoldTime -= Time.deltaTime;
+            if (buttonHoldTime <= 0)
+            {
+                buttonHoldTime = 0;
+                isJumping = false;
+                jumpHeld = false;
+            }
+            else
+                rb.AddForce(Vector2.up * holdForce);
+        }
+        else
+        {
+            isJumping = false;
+        }
+    }
+    private void Falling()
+    {
+        if(!isJumping && rb.velocity.y < fallSpeed)
+        {
+            rb.gravityScale = gravityMultipler;
+        }
+        if (rb.velocity.y < maxFallSpeed)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, maxFallSpeed);
+        }
+    }
+
     public void HeadButting(InputAction.CallbackContext context)
     {
         if (context.started && canAttack)
@@ -268,7 +353,14 @@ public class BullController : MonoBehaviour
     IEnumerator JumpTimer(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        rb.AddForce(Vector2.up * jumpForce * movementForce);
+        jumpEffect.GetComponentInParent<ParticleSystem>().Play();
+        if (numberOfJumpsLeft == maxJumps)
+            rb.AddForce(Vector2.up * jumpForce);
+        else
+            rb.AddForce(Vector2.up * secondaryJumpForce);
+
+        AdditionalAir();
+
 
 
     }
