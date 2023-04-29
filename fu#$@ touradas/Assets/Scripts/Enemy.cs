@@ -36,7 +36,6 @@ public class Enemy : MonoBehaviour
 
 
     [Header("Cavaleiro")]
-    public int spawnPosition;
     public Transform spearSpawnPos;
     public GameObject spearPrefab;
     public float spearSpeed = 20;
@@ -138,7 +137,7 @@ public class Enemy : MonoBehaviour
             GetComponent<Balance>().enabled = false;
         }
 
-       if(type != Type.FORCADO && isDead && hand.enabled)
+       if(type == Type.FORCADO && isDead && hand.enabled)
         {
             hand.enabled = false;
             hand1.enabled = false;

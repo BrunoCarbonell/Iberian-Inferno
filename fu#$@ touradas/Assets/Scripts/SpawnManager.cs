@@ -22,11 +22,29 @@ public class Wave
     public Vector2 healSpawnInterval;
 }
 
+[System.Serializable]
+
+public class Spawn
+{
+    public GameObject enemy;
+    public Transform spawn;
+    public Spawn(GameObject enemy, Transform spawn)
+    {
+        this.enemy = enemy;
+        this.spawn = spawn;
+    }
+    public Spawn(Transform spawn)
+    {
+        this.spawn = spawn;
+    }
+}
+
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] Wave[] waves;
     public Transform[] spawnPoints;
     public Transform[] healSpawnPoints;
+    [SerializeField]private List<Spawn> spawns = new List<Spawn>();
 
     private Wave currentWave;
     [SerializeField]private int currentWaveNumber;
@@ -48,6 +66,10 @@ public class SpawnManager : MonoBehaviour
         currentWaveNumber = -1;
         wName.text = waves[currentWaveNumber + 1].waveName;
         anim.SetTrigger("Wave1");
+        foreach(Transform t in spawnPoints)
+        {
+            spawns.Add(new Spawn(t));
+        }
         foreach(Wave wave in waves)
         {
             foreach(TypeOfEnemies ty in wave.typeOfEnemies)
@@ -108,20 +130,50 @@ public class SpawnManager : MonoBehaviour
         if (canSpawn && nextSpawnTime < Time.time)
         {
             var rand = Random.Range(0, currentWave.typeOfEnemies.Length);
+            int randSpawn = Random.Range(0, spawnPoints.Length);
 
             if (currentWave.typeOfEnemies[rand].haveMaximun)
             {
-                while (currentWave.typeOfEnemies[rand].haveMaximun && currentWave.typeOfEnemies[rand].used <= 0)
+                int ocupiedSpot = 0;
+                var tmpRand = rand;
+                foreach(Spawn s in spawns)
                 {
-                    rand = Random.Range(0, currentWave.typeOfEnemies.Length);
+                    if(s.enemy != null)
+                        ocupiedSpot++;
                 }
-                currentWave.typeOfEnemies[rand].used--;
+
+                if (ocupiedSpot == spawns.Count)
+                {
+                    while(tmpRand == rand)
+                    {
+                        rand = Random.Range(0, currentWave.typeOfEnemies.Length);
+                    }
+                }
+                else
+                {
+                    while (currentWave.typeOfEnemies[rand].haveMaximun && currentWave.typeOfEnemies[rand].used <= 0)
+                    {
+                        rand = Random.Range(0, currentWave.typeOfEnemies.Length);
+                    }
+                    currentWave.typeOfEnemies[rand].used--;
+
+                    if (spawns[randSpawn].enemy != null)
+                    {
+                        while (spawns[randSpawn].enemy != null)
+                        {
+                            randSpawn = Random.Range(0, spawnPoints.Length);
+
+                        }
+                    }
+                }               
             }
-               
-            
+
             GameObject randomEnemy = currentWave.typeOfEnemies[rand].enemyType;
-            Transform randomPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            Transform randomPoint = spawnPoints[randSpawn];
             GameObject tmp = Instantiate(randomEnemy, randomPoint.position, Quaternion.identity);
+            if (currentWave.typeOfEnemies[rand].haveMaximun)
+                spawns[randSpawn].enemy = tmp;
+    
             gM.enemyList.Add(tmp);
             currentWave.noOfEnemies--;
             nextSpawnTime = Time.time + Random.Range(currentWave.spawnInterval.x, currentWave.spawnInterval.y);

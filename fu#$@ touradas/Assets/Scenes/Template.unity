@@ -33982,6 +33982,7 @@ MonoBehaviour:
   - {fileID: 1991207180}
   - {fileID: 1384671357}
   - {fileID: 456994380}
+  spawns: []
   currentWaveNumber: 0
   wName: {fileID: 49685251}
   healPrefab: {fileID: 5766750444469698578, guid: d4b53befd3df1e342acd58c2e69e7900, type: 3}
