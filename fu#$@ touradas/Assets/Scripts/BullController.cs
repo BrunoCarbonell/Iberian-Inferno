@@ -332,7 +332,7 @@ public class BullController : MonoBehaviour
                 o.GetComponent<Enemy>().Hit();
                 o.GetComponent<Enemy>().fly = true;
             }
-            mFStacks = 0;
+
         }
 
         

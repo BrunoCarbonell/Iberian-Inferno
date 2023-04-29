@@ -8,7 +8,7 @@ public class TypeOfEnemies
     public GameObject enemyType;
     public bool haveMaximun;
     public int maximun;
-    public int used;
+    [HideInInspector]public int used;
 }
 
 [System.Serializable]
@@ -56,6 +56,8 @@ public class SpawnManager : MonoBehaviour
     public TextMeshProUGUI wName;
     private bool canAnimate = false;
     public GameObject healPrefab;
+    public TextMeshProUGUI wName1;
+    public TextMeshProUGUI wName2;
 
 
     void Start()
@@ -92,6 +94,8 @@ public class SpawnManager : MonoBehaviour
             anim.speed = 1;
 
 
+        wName1.text = waves[currentWaveNumber].waveName;
+
         if (currentWaveNumber>=0)
             currentWave = waves[currentWaveNumber];
 
@@ -115,6 +119,7 @@ public class SpawnManager : MonoBehaviour
 
         if(gM.state == GameState.GAMEOVER)
         {
+            wName2.text = waves[currentWaveNumber].waveName;
             anim.SetTrigger("GameOver");
         }
         
