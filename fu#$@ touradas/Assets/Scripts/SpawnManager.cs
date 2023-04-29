@@ -18,22 +18,26 @@ public class Wave
     public int noOfEnemies;
     public TypeOfEnemies[] typeOfEnemies;
     public Vector2 spawnInterval;
-    
+    public int numberOfHeals;
+    public Vector2 healSpawnInterval;
 }
 
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] Wave[] waves;
     public Transform[] spawnPoints;
+    public Transform[] healSpawnPoints;
 
     private Wave currentWave;
     [SerializeField]private int currentWaveNumber;
     private bool canSpawn = true;
     private float nextSpawnTime;
+    private float nextHealSpawnTime;
     private GameManager gM;
     private Animator anim;
     public TextMeshProUGUI wName;
     private bool canAnimate = false;
+    public GameObject healPrefab;
 
 
     void Start()
@@ -58,9 +62,12 @@ public class SpawnManager : MonoBehaviour
 
         if(currentWaveNumber>=0)
             currentWave = waves[currentWaveNumber];
-    
-        if(currentWaveNumber>=0)
+
+        if (currentWaveNumber >= 0)
+        {
             SpawnWave();
+            SpawnHeal();
+        }
 
         if (gM.enemyList.Count == 0 && currentWaveNumber+1 != waves.Length && canAnimate)
         {
@@ -82,6 +89,18 @@ public class SpawnManager : MonoBehaviour
         
     }
 
+
+    void SpawnHeal()
+    {
+        if(canSpawn && nextHealSpawnTime < Time.time && currentWave.numberOfHeals > 0)
+        {
+            //nextHealSpawnTime = Time.time;
+            Transform randomPoint = healSpawnPoints[Random.Range(0, healSpawnPoints.Length)];
+            GameObject tmp = Instantiate(healPrefab, randomPoint.position, Quaternion.identity);
+            currentWave.numberOfHeals--;
+            nextHealSpawnTime = Time.time + Random.Range(currentWave.healSpawnInterval.x, currentWave.healSpawnInterval.y);
+        }
+    }
 
     void SpawnWave()
     {

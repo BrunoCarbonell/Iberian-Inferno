@@ -12,7 +12,7 @@ public class Heal : MonoBehaviour
 
     private void Start()
     {
-        col = GetComponent<BoxCollider2D>();
+        col = GetComponentInChildren<BoxCollider2D>();
     }
 
 

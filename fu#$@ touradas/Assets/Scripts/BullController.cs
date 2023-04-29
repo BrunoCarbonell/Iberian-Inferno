@@ -303,8 +303,6 @@ public class BullController : MonoBehaviour
                 return holdingSpots[2];
             case 3:
                 return holdingSpots[3];
-            case 4:
-                return holdingSpots[4];
             default:
                 return null;
         }
@@ -373,7 +371,8 @@ public class BullController : MonoBehaviour
     {
         if (collision.CompareTag("Flower"))
         {
-            Heal(collision.GetComponent<Heal>().Use());
+            if(atualHP != maxHP)
+                Heal(collision.GetComponentInParent<Heal>().Use());
         }
     }
 }

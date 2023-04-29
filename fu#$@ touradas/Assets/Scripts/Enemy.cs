@@ -119,7 +119,7 @@ public class Enemy : MonoBehaviour
             followEnable = false;
         }
 
-        if(type == Type.CAVALEIRO)
+        if(type == Type.CAVALEIRO && !isDead)
         {
             if (target.position.x > transform.position.x && lookingRigth)
                 Flip();
@@ -136,6 +136,11 @@ public class Enemy : MonoBehaviour
             GetComponent<Balance>().enabled = false;
         }
 
+        if(isDead && (hand.enabled == true || hand1.enabled == true))
+        {
+            hand.enabled = false;
+            hand1.enabled = false;
+        }
 
         if (atualHP <= 0 && !isDead)
         {
@@ -259,12 +264,18 @@ public class Enemy : MonoBehaviour
 
         if(collision.CompareTag("Headbutt"))
             Hit();
+
+        if(collision.CompareTag("OUT OF BOUNDS"))
+        {
+            atualHP = 0;
+        }
     }
 
     IEnumerator DestroyTimer(float time)
     {
         yield return new WaitForSeconds(time);
         var evaporate = Instantiate(poofEffect, transform.position, Quaternion.identity);
+        Destroy(evaporate, 5);
         Destroy(parentGO);
     }
 
