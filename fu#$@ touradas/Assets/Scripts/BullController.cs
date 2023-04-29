@@ -92,6 +92,16 @@ public class BullController : MonoBehaviour
 
     private void Update()
     {
+
+        if (gM.state == GameState.PAUSE)
+        {
+            anim.speed = 0;
+            return;
+        }
+        else
+            anim.speed = 1;
+
+
         if (Input.GetKeyDown(KeyCode.D) && !facingRigth)
             Flip();
         else if (Input.GetKeyDown(KeyCode.A) && facingRigth)

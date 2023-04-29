@@ -26032,7 +26032,7 @@ GameObject:
   - component: {fileID: 5967139641973522131}
   m_Layer: 9
   m_Name: Horse Body
-  m_TagString: Untagged
+  m_TagString: MF
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26202,7 +26202,6 @@ MonoBehaviour:
   - {fileID: 5967139641795071509}
   - {fileID: 5967139641580556524}
   isAttacking: 0
-  spawnPosition: 0
   spearSpawnPos: {fileID: 4398704849692753630}
   spearPrefab: {fileID: 8785391755875941254, guid: 261aee50429a51246b92d887b072cc7d, type: 3}
   spearSpeed: 20

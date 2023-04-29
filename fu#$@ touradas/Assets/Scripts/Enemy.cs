@@ -104,6 +104,16 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        if (gM.state == GameState.PAUSE)
+        {
+            anim.speed = 0;
+            return;
+        } else
+            anim.speed = 1;
+
+
         if (isDead || (type == Type.FORCADO && isHolding))
         {
             foreach(CopyAnim o in ragdoll)

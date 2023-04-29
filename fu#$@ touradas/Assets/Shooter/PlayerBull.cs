@@ -73,6 +73,15 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""6956808a-e7c1-4014-b480-fb8ceac663e0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -315,6 +324,28 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Headbutt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""011b2a6c-c7e5-43e1-8308-50e74a053551"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""814805d5-cae9-4fba-87ff-07dd23dda1b1"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -907,6 +938,7 @@ namespace UnityEngine.InputSystem
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_Explode = m_Player.FindAction("Explode", throwIfNotFound: true);
             m_Player_Headbutt = m_Player.FindAction("Headbutt", throwIfNotFound: true);
+            m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -985,6 +1017,7 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_Explode;
         private readonly InputAction m_Player_Headbutt;
+        private readonly InputAction m_Player_Pause;
         public struct PlayerActions
         {
             private @PlayerBull m_Wrapper;
@@ -994,6 +1027,7 @@ namespace UnityEngine.InputSystem
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @Explode => m_Wrapper.m_Player_Explode;
             public InputAction @Headbutt => m_Wrapper.m_Player_Headbutt;
+            public InputAction @Pause => m_Wrapper.m_Player_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1018,6 +1052,9 @@ namespace UnityEngine.InputSystem
                 @Headbutt.started += instance.OnHeadbutt;
                 @Headbutt.performed += instance.OnHeadbutt;
                 @Headbutt.canceled += instance.OnHeadbutt;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1037,6 +1074,9 @@ namespace UnityEngine.InputSystem
                 @Headbutt.started -= instance.OnHeadbutt;
                 @Headbutt.performed -= instance.OnHeadbutt;
                 @Headbutt.canceled -= instance.OnHeadbutt;
+                @Pause.started -= instance.OnPause;
+                @Pause.performed -= instance.OnPause;
+                @Pause.canceled -= instance.OnPause;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1224,6 +1264,7 @@ namespace UnityEngine.InputSystem
             void OnJump(InputAction.CallbackContext context);
             void OnExplode(InputAction.CallbackContext context);
             void OnHeadbutt(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

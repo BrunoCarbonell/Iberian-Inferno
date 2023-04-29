@@ -77,12 +77,22 @@ public class SpawnManager : MonoBehaviour
                 ty.used = ty.maximun;
             }
         }
+        nextHealSpawnTime = Time.time + Random.Range(currentWave.healSpawnInterval.x, currentWave.healSpawnInterval.y);
     }
 
     private void Update()
     {
 
-        if(currentWaveNumber>=0)
+        if (gM.state == GameState.PAUSE)
+        {
+            anim.speed = 0;
+            return;
+        }
+        else
+            anim.speed = 1;
+
+
+        if (currentWaveNumber>=0)
             currentWave = waves[currentWaveNumber];
 
         if (currentWaveNumber >= 0)
