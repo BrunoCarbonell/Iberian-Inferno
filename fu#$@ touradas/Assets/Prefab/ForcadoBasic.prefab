@@ -2912,7 +2912,7 @@ MonoBehaviour:
   hand: {fileID: 3383868340014013900}
   hand1: {fileID: 3383868340543257696}
   damage: 3
-  destroyTime: 20
+  destroyTime: 10
   lookingRigth: 1
   anim: {fileID: 8852098705316465587}
   stun: {fileID: 969927409259928397}
@@ -2937,7 +2937,6 @@ MonoBehaviour:
   - {fileID: 3383868341141971590}
   - {fileID: 3383868340110569264}
   isAttacking: 0
-  spawnPosition: 0
   spearSpawnPos: {fileID: 0}
   spearPrefab: {fileID: 0}
   spearSpeed: 20

@@ -378,6 +378,8 @@ public class BullController : MonoBehaviour
     public void Heal(int amount)
     {
         atualHP += amount;
+        if(atualHP < maxHP)
+            atualHP = maxHP;
     }
 
 
