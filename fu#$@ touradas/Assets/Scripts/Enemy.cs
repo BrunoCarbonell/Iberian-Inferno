@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     public FixedJoint2D hand, hand1;
     public float damage = 5;
     public float destroyTime;
-    private bool lookingRigth = true;
+    public bool lookingRigth = true;
     public Animator anim;
     private CapsuleCollider2D col;
     private GameManager gM;
@@ -43,7 +43,11 @@ public class Enemy : MonoBehaviour
     private Vector2 shootDirection;
     public float firerate = 1.5f;
     private float nextFire;
-
+    public float delayShoot;
+    private float nextAnimFire;
+    public Sprite[] skins;
+    public SpriteRenderer farpa;
+    private Sprite currentSkin;
 
     [Header("Pathfinding")]
     public Transform target;
@@ -91,8 +95,11 @@ public class Enemy : MonoBehaviour
         if(type == Type.CAVALEIRO)
         {
             nextFire = Time.time + firerate;
+            nextAnimFire = Time.time +firerate - delayShoot;
+            if (farpa == null)
+                farpa = spearSpawnPos.GetComponent<SpriteRenderer>();
+            currentSkin = skins[Random.Range(0, skins.Length)];
         }
-
     }
 
     // Update is called once per frame
@@ -112,6 +119,15 @@ public class Enemy : MonoBehaviour
             followEnable = false;
         }
 
+        if(type == Type.CAVALEIRO)
+        {
+            if (target.position.x > transform.position.x && lookingRigth)
+                Flip();
+            if (target.position.x < transform.position.x && !lookingRigth)
+                Flip();
+        }
+        
+
         if(fly)
         {
             hand.enabled = false;
@@ -126,7 +142,8 @@ public class Enemy : MonoBehaviour
             isDead = true;
             StartCoroutine(DestroyTimer(destroyTime));
             col.enabled = false;
-            GetComponent<Balance>().enabled = false;
+            if(GetComponent<Balance>() != null)
+                GetComponent<Balance>().enabled = false;
             followEnable = false;
             isHolding = false;
             directionLookEnable = false;
@@ -267,6 +284,16 @@ public class Enemy : MonoBehaviour
 
     private void CheckIfTimeToFire()
     {
+        
+        if (Time.time >nextAnimFire && !isDead)
+        {
+
+            farpa.enabled = true;
+            farpa.sprite = currentSkin;
+            anim.SetTrigger("Shoot");
+            nextAnimFire = Time.time + 5000;
+        }
+
         if(Time.time > nextFire && !isDead)
         {
             Vector3 spearRot;
@@ -278,11 +305,14 @@ public class Enemy : MonoBehaviour
 
             var bullet = Instantiate(spearPrefab, spearSpawnPos.position, rot);
             bullet.GetComponent<SpearController>().player = target;
+            bullet.GetComponent<SpearController>().ChangeSkin(currentSkin);
             shootDirection = (target.transform.position - spearSpawnPos.position).normalized * spearSpeed;
             bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootDirection.x, shootDirection.y);
             Destroy(bullet, 6f);
             nextFire = Time.time + firerate;
-
+            nextAnimFire = Time.time + firerate - delayShoot;
+            farpa.enabled = false;
+            currentSkin = skins[Random.Range(0, skins.Length)];
         }
     }
 

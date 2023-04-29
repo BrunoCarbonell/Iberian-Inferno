@@ -9,6 +9,11 @@ public class SpearController : MonoBehaviour
     private bool isStuck = false;
 
 
+   public void ChangeSkin(Sprite skin)
+    {
+        GetComponent<SpriteRenderer>().sprite = skin;
+
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

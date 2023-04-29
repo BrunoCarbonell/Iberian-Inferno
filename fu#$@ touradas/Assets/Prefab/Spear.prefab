@@ -101,6 +101,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   player: {fileID: 0}
+  skins:
+  - {fileID: 1282606954, guid: 279141f5544a651419bec930e677e465, type: 3}
+  - {fileID: 128346786, guid: 279141f5544a651419bec930e677e465, type: 3}
+  - {fileID: 191629359, guid: 279141f5544a651419bec930e677e465, type: 3}
+  - {fileID: -863240449, guid: 279141f5544a651419bec930e677e465, type: 3}
 --- !u!50 &6814383755836444219
 Rigidbody2D:
   serializedVersion: 4

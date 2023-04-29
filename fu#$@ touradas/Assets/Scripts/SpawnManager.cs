@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 [System.Serializable]
+public class TypeOfEnemies
+{
+    public GameObject enemyType;
+    public bool haveMaximun;
+    public int maximun;
+    public int used;
+}
 
+[System.Serializable]
 public class Wave
 {
     public string waveName;
     public int noOfEnemies;
-    public GameObject[] typeOfEnemies;
+    public TypeOfEnemies[] typeOfEnemies;
     public Vector2 spawnInterval;
     
 }
@@ -36,14 +44,22 @@ public class SpawnManager : MonoBehaviour
         currentWaveNumber = -1;
         wName.text = waves[currentWaveNumber + 1].waveName;
         anim.SetTrigger("Wave1");
+        foreach(Wave wave in waves)
+        {
+            foreach(TypeOfEnemies ty in wave.typeOfEnemies)
+            {
+                ty.used = ty.maximun;
+            }
+        }
     }
 
     private void Update()
     {
 
-
-        currentWave = waves[currentWaveNumber];
-       if(currentWaveNumber>=0)
+        if(currentWaveNumber>=0)
+            currentWave = waves[currentWaveNumber];
+    
+        if(currentWaveNumber>=0)
             SpawnWave();
 
         if (gM.enemyList.Count == 0 && currentWaveNumber+1 != waves.Length && canAnimate)
@@ -72,7 +88,19 @@ public class SpawnManager : MonoBehaviour
 
         if (canSpawn && nextSpawnTime < Time.time)
         {
-            GameObject randomEnemy = currentWave.typeOfEnemies[Random.Range(0, currentWave.typeOfEnemies.Length)];
+            var rand = Random.Range(0, currentWave.typeOfEnemies.Length);
+
+            if (currentWave.typeOfEnemies[rand].haveMaximun)
+            {
+                while (currentWave.typeOfEnemies[rand].haveMaximun && currentWave.typeOfEnemies[rand].used <= 0)
+                {
+                    rand = Random.Range(0, currentWave.typeOfEnemies.Length);
+                }
+                currentWave.typeOfEnemies[rand].used--;
+            }
+               
+            
+            GameObject randomEnemy = currentWave.typeOfEnemies[rand].enemyType;
             Transform randomPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
             GameObject tmp = Instantiate(randomEnemy, randomPoint.position, Quaternion.identity);
             gM.enemyList.Add(tmp);
