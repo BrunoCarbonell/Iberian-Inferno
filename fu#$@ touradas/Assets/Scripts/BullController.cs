@@ -38,7 +38,6 @@ public class BullController : MonoBehaviour
     [Space(5)]
     [Range(0f, 2f)] public float raicastDistance = 1.5f;
     public GameObject jumpEffect;
-    private bool haveDoublejumped;
 
     private bool jumpPressed;
     private bool jumpHeld;
@@ -85,6 +84,8 @@ public class BullController : MonoBehaviour
     {
         gM = GameObject.FindObjectOfType<GameManager>();
         originalGravity = rb.gravityScale;
+        buttonHoldTime = maxButtonHoldTime;
+        numberOfJumpsLeft = maxJumps;
         StartCoroutine(time());
     }
 
@@ -99,21 +100,18 @@ public class BullController : MonoBehaviour
 
         CheckForJump();
 
+        if (isGrounded)
+        {
 
+            numberOfJumpsLeft = maxJumps;
+            rb.gravityScale = originalGravity;
+        }
     }
 
     private void FixedUpdate()
     {
         Movement();
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, raicastDistance, whatIsGround);
-
-
-        if (isGrounded)
-        {
-            haveDoublejumped = false;
-            numberOfJumpsLeft = maxJumps;
-            rb.gravityScale = originalGravity;
-        }
 
         atualSlow = 1-((mFSlow * mFStacks)/100);
 
@@ -163,34 +161,16 @@ public class BullController : MonoBehaviour
             jumpPressed = true;
             jumpHeld = true;
         }
-
-
-        /*if(context.started && isGrounded)
-        {
-            jumpEffect.GetComponentInParent<ParticleSystem>().Play();
-            StartCoroutine(JumpTimer(0.2f));
-            anim.SetTrigger("Jump");
-        }
-
-        if(context.started && !isGrounded && !haveDoublejumped)
-        {
-
-            jumpEffect.GetComponentInParent<ParticleSystem>().Play();
-            StartCoroutine(JumpTimer(0.2f));
-            haveDoublejumped = true;
-            anim.SetTrigger("Jump");
-
-        }*/
     }
 
     public void CheckForJump()
     {
         if (jumpPressed)
         {
-            jumpPressed = false;
             if (!isGrounded && numberOfJumpsLeft == maxJumps)
             {
                 isJumping = false;
+                //return;
             }
             numberOfJumpsLeft--;
             if (numberOfJumpsLeft >= 0)
@@ -205,7 +185,8 @@ public class BullController : MonoBehaviour
                 }
                 isJumping = true;
             }
-            
+            jumpPressed = false;
+
         }
     }
 
@@ -213,7 +194,6 @@ public class BullController : MonoBehaviour
     {
         if (isJumping && numberOfJumpsLeft == maxJumps)
         {
-            //StartCoroutine(JumpTimer(0.2f));
             rb.AddForce(Vector2.up * jumpForce);
             AdditionalAir();
         }else if(isJumping && numberOfJumpsLeft < maxJumps)
