@@ -30194,7 +30194,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OPTIONS
+  m_text: CONTROLS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc678192fd7f3de48bcf8fa0abd80171, type: 2}
   m_sharedMaterial: {fileID: 8754486590717225653, guid: dc678192fd7f3de48bcf8fa0abd80171, type: 2}
@@ -33880,7 +33880,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00030517578, y: -57.14749}
+  m_AnchoredPosition: {x: -0.00024414062, y: -57.14746}
   m_SizeDelta: {x: -441.15, y: -114.295}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1046363943
@@ -34376,6 +34376,7 @@ MonoBehaviour:
   dmgOverTime: 5
   maxHP: 100
   atualHP: 100
+  mfAtacheds: []
 --- !u!114 &1199701028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34576,7 +34577,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00030517578, y: -57.14749}
+  m_AnchoredPosition: {x: -0.00024414062, y: -57.14746}
   m_SizeDelta: {x: -441.15, y: -114.295}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1252030333
@@ -35125,7 +35126,7 @@ MonoBehaviour:
     numberOfHeals: 4
     healSpawnInterval: {x: 10, y: 30}
   - waveName: Round 4
-    noOfEnemies: 35
+    noOfEnemies: 30
     typeOfEnemies:
     - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
       haveMaximun: 0
@@ -35139,19 +35140,137 @@ MonoBehaviour:
     numberOfHeals: 5
     healSpawnInterval: {x: 20, y: 30}
   - waveName: Round 5
-    noOfEnemies: 40
+    noOfEnemies: 35
     typeOfEnemies:
-    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
-      haveMaximun: 0
-      maximun: 0
-      used: 0
     - enemyType: {fileID: 4398704849150854548, guid: 0648e6dfed746d54690cf3d7c56cb9ae, type: 3}
       haveMaximun: 1
       maximun: 4
       used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
     spawnInterval: {x: 1, y: 2}
     numberOfHeals: 6
-    healSpawnInterval: {x: 20, y: 40}
+    healSpawnInterval: {x: 15, y: 30}
+  - waveName: Round 6
+    noOfEnemies: 35
+    typeOfEnemies:
+    - enemyType: {fileID: 4398704849150854548, guid: 0648e6dfed746d54690cf3d7c56cb9ae, type: 3}
+      haveMaximun: 1
+      maximun: 6
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    spawnInterval: {x: 1, y: 2}
+    numberOfHeals: 8
+    healSpawnInterval: {x: 15, y: 30}
+  - waveName: Round 7
+    noOfEnemies: 35
+    typeOfEnemies:
+    - enemyType: {fileID: 4398704849150854548, guid: 0648e6dfed746d54690cf3d7c56cb9ae, type: 3}
+      haveMaximun: 1
+      maximun: 8
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    spawnInterval: {x: 1, y: 2}
+    numberOfHeals: 8
+    healSpawnInterval: {x: 15, y: 30}
+  - waveName: Round 8
+    noOfEnemies: 40
+    typeOfEnemies:
+    - enemyType: {fileID: 4398704849150854548, guid: 0648e6dfed746d54690cf3d7c56cb9ae, type: 3}
+      haveMaximun: 1
+      maximun: 10
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    spawnInterval: {x: 1, y: 2}
+    numberOfHeals: 12
+    healSpawnInterval: {x: 15, y: 30}
+  - waveName: Round 9
+    noOfEnemies: 40
+    typeOfEnemies:
+    - enemyType: {fileID: 4398704849150854548, guid: 0648e6dfed746d54690cf3d7c56cb9ae, type: 3}
+      haveMaximun: 1
+      maximun: 14
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    spawnInterval: {x: 1, y: 2}
+    numberOfHeals: 12
+    healSpawnInterval: {x: 15, y: 30}
+  - waveName: Final Round
+    noOfEnemies: 40
+    typeOfEnemies:
+    - enemyType: {fileID: 4398704849150854548, guid: 0648e6dfed746d54690cf3d7c56cb9ae, type: 3}
+      haveMaximun: 1
+      maximun: 16
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    - enemyType: {fileID: 4103423417097743591, guid: a3ee6b2271da56340a51df1b775e2754, type: 3}
+      haveMaximun: 0
+      maximun: 0
+      used: 0
+    spawnInterval: {x: 1, y: 2}
+    numberOfHeals: 14
+    healSpawnInterval: {x: 15, y: 30}
   spawnPoints:
   - {fileID: 547971257}
   - {fileID: 1894111716}
@@ -36703,7 +36822,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Wave name
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc678192fd7f3de48bcf8fa0abd80171, type: 2}
   m_sharedMaterial: {fileID: 8754486590717225653, guid: dc678192fd7f3de48bcf8fa0abd80171, type: 2}
@@ -36730,7 +36849,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.6
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -37497,7 +37616,7 @@ GameObject:
   - component: {fileID: 2104350355}
   - component: {fileID: 2104350354}
   m_Layer: 5
-  m_Name: Oprions
+  m_Name: Controls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
